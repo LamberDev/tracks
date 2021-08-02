@@ -1,47 +1,45 @@
-import React, {useState, useContext} from 'react';
-import { StyleSheet} from 'react-native';
-import { Text, Input, Button } from 'react-native-elements';
-import { View } from 'react-native'
-import Spacer from '../components/Spacer';
+import React, {useContext, useEffect} from 'react';
+import { View,StyleSheet, TouchableOpacity} from 'react-native';
 import { Context as AuthContext } from '../Context/AuthContext';
+import AuthForm from '../components/AuthForm';
+import NavLink from '../components/NavLink';
+import { NavigationsEvents } from 'react-navigation';
 
 const SignupScreen = ( { navigation } ) => {
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    
+    const { state, signup, clearErrorMessage } = useContext(AuthContext); 
 
-    const { state, signup } = useContext(AuthContext);
+    useEffect( () => {
+        //Nos creamos un listener en el navigatio para que cuando aparezca la pantalla llame a la funcion de borrar error
+        const listener_focus = navigation.addListener('willFocus', () => {
+            clearErrorMessage();
+        })
+        const listener_blur = navigation.addListener('willBlur', () => {
+            clearErrorMessage();
+        })
+
+        return () => { //Quitamos el listener cuando el componenete se destruye
+            listener_focus.remove();
+            listener_blur.remove();
+        }
+    },[navigation]); //El use effect reacciona cuando cambia el valor de navigation
 
     return (
         <View style={ styles.container }>
-            <Spacer>
-                <Text h3> Sign Up For Tracker</Text>
-            </Spacer>
-            
-            <Input
-                autoCapitalize="none"
-                autoCorrect={false}
-                label="Email"
-                value={email}
-                onChangeText={setEmail} // Hacer esto es lo mismo que lo que hacemos en password
-             />
-            <Spacer></Spacer>
-            <Input 
-                label="Passord"
-                autoCapitalize="none"
-                autoCorrect={false}
-                secureTextEntry // Para que salga como un password el texto
-                label="Password"
-                value={password}
-                onChangeText={(newValue) => { setPassword(newValue) }} 
+             {/* <NavigationsEvents //Componente reacciona a cualquier accion de navegar (aparecer pantalla o desaparecer)
+                onWillFocus={clearErrorMessage} //La prop onWillFocus (cuando la pantalla vaya a aparecer) Le pasamos nuestra funcion que borra el error
+            /> */}
+            <AuthForm 
+                headerText="Sign Up on Tracker App" 
+                errorMessage={ state.errorMessage } 
+                onSubmit={signup} 
+                submitButtonText="Sign Up"
             />
-
-            <Spacer>
-                <Button 
-                    title="Sign Up"
-                    onPress={ () => { signup({email, password}) }}
-                />
-            </Spacer>
+            <NavLink
+                routeName="Signin"
+                text="Already have an account? Sign in instead!"
+            />
             
         </View>
     );
