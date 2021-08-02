@@ -2,7 +2,7 @@ import createDataContext from "./createDataContext";
 
 const locationReducer = (state, action) => {
     switch (action.type) {
-        case 'add_location':
+        case 'add_current_location':
             return { ... state, currentLocation: action.payload }; // Cambiamos la localizacion
         default:
             return state;

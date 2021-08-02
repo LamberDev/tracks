@@ -22,7 +22,7 @@ const getLocation = (increment) => {
 // Llamamos cada segundo a una funcion que hace que se actualize la localizacion psandole un objeto enviando un id y la localizacion
 let counter = 0;
 
-sertInterval(() => {
+setInterval(() => {
     Location.EventEmitter.emit('Expo.locationChanged', {
         watchId: Location._getCurrentWatchId(),
         location: getLocation(counter)

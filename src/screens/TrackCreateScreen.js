@@ -1,38 +1,17 @@
-import React, { useState, useEffect, useContext} from 'react';
+import React, {useContext} from 'react';
 import { StyleSheet, Text} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { withNavigationFocus } from 'react-navigation';
 import Map from '../components/Map';
-import { requestForegroundPermissionsAsync, watchPositionAsync, Accuracy } from 'expo-location';
 import { Context as LocationContext } from '../Context/LocationContext';
+import useLocation from '../hooks/useLocation';
 //import '../helpers/_mockLocation';
 
-const TrackCreateScreen = () => {
-    const [err, setError] = useState(null);
-
+const TrackCreateScreen = ( { isFocused} ) => { // Recibo la prop de WithNavigationFocus
+    
     const {addLocation} = useContext(LocationContext);
 
-    const startWatching = async () => {
-        try {
-            const { granted } = await requestForegroundPermissionsAsync();
-            await watchPositionAsync({
-                accuracy: Accuracy.BestForNavigation,
-                timeInterval: 1000,
-                distanceInterval: 10
-            }, (location) => { // Esta funcion se llama cada vez que se recibe una localizacion
-                addLocation(location); //Cambio el estado
-            });
-
-            if(!granted) {
-                setError('Permission Location rejected');
-            }
-        }catch (err){
-            setError('error');
-        }
-    };
-
-    useEffect( () => {
-        startWatching();
-    },[]);
+    const [err] = useLocation(isFocused,addLocation) // Envio si la pantalla esta siendo mostrada y la funcion que añade la localizacion
 
     return (
         <SafeAreaView forceInset={{ top: 'always'}}>
@@ -47,4 +26,5 @@ const styles = StyleSheet.create({
 
 });
 
-export default TrackCreateScreen;
+export default withNavigationFocus(TrackCreateScreen); //Envolvemos este componeete con dicha funcion para poder obtener a tiempo real si este componente
+//esta siendo FOCUS es decir se esta mostrando en la pantalla o no
