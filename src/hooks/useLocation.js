@@ -36,7 +36,7 @@ export default ( shouldTrackLocation,callback ) => {
             setSub(null); // Y le devuelvo su estado por defecto
         }
         
-    },[shouldTrackLocation]); //Llamo a useEfect al inicio y reacciono al argumento que indica si trackeo o no
+    },[shouldTrackLocation, callback]); //Llamo a useEfect al inicio y reacciono al argumento que indica si trackeo o no
 
     return [err];
 }
