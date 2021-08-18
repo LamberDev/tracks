@@ -2,7 +2,7 @@ import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 
 const instance =  axios.create({
-    baseURL: 'http://363b96d9f83e.ngrok.io'
+    baseURL: 'http://0afef7126899.ngrok.io'
 });
 
 //Preconfiguramos nuestra instancia de axios para que si hay token lo añada automaticamente
@@ -14,13 +14,13 @@ const instance =  axios.create({
  * En la segunda tratamos los errores
  */
 instance.interceptors.request.use(
-   async (config) => {
+   async (config) => { //Objeto config contiene toda la info de la peticion (url,headers,body etc)
         const token = await AsyncStorage.getItem('token');
         if(token) {
-            config.headers.Authorization = `Bearer ${token}`
+            config.headers.Authorization = `Bearer ${token}` // Si tenemos token lo metemos en el header de Auth
         }
 
-        return config;
+        return config; // Devolvemos nuestra config
     },
     (err) => {
         return Promise.reject(err);

@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Context as TrackContext } from '../Context/TrackContext';
 import { Context as LocationContext } from '../Context/LocationContext';
+import { navigate } from '../helpers/navigationRef';
 
 /**
  * Este hook lo utilizamos como ejemplo de como puedo pasarme info entre Contextos realmente lo que hace este hook se puede hacer de otras maneras
@@ -17,10 +18,13 @@ import { Context as LocationContext } from '../Context/LocationContext';
 export default () => {
     
     const { createTrack } = useContext(TrackContext);
-    const { state: { name, locations } } = useContext(LocationContext);
+    const { state: { name, locations }, 
+            reset } = useContext(LocationContext);
 
     const saveTrack = () => {
-        createTrack(name, locations)
+        createTrack(name, locations);
+        reset(); // Resetamos el estado de la pantalla de navegacion una vez acabamos el trackeo
+        navigate('TrackList'); // Navegamos desde hooks con nuestro archivo helper de navegacion
     };
 
     return [saveTrack];
