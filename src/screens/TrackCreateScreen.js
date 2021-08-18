@@ -10,17 +10,17 @@ import TrackForm from '../components/TrackForm';
 
 const TrackCreateScreen = ( { isFocused} ) => { // Recibo la prop de WithNavigationFocus
     
-    const {state, addLocation} = useContext(LocationContext);
+    const {state: { recording }, addLocation} = useContext(LocationContext);
 
     /** Con useCallbacl le pasamos como argumento una funcion y un array con propiedades
      * Este useCallback se ejecuta cada vez que cambie el valor que le pasamos en el array, si ese valor cambia ejecuta la funcion
      * Si ese valor no cambia no modifica esa funcion y la ejecuta con su estado por defecto∫
      */
     const callback = useCallback((location) => {
-        addLocation(location, state.recording);
-    }, [state.recording])
+        addLocation(location, recording);
+    }, [recording])
 
-    const [err] = useLocation(isFocused, callback); 
+    const [err] = useLocation(isFocused | recording , callback); // Pasamos un prop con el operador OR
 
     return (
         <SafeAreaView forceInset={{ top: 'always'}}>

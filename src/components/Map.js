@@ -5,7 +5,7 @@ import { Context as LocationContext } from '../Context/LocationContext';
 
 const Map = () => {
 
-    const { state: { currentLocation } } = useContext(LocationContext);
+    const { state: { currentLocation, locations } } = useContext(LocationContext);
     
 
     if (!currentLocation) {
@@ -25,12 +25,12 @@ const Map = () => {
             }}
 
             //Prop para que el mapa se vaya moviendo en base al objeto que le pasamos
-            // region={ {
-            //     longitude: currentLocation.coords.longitude,
-            //     latitude: currentLocation.coords.latitude,
-            //     latitudeDelta: 0.01,
-            //     longitudeDelta: 0.01,
-            // }}
+            region={ {
+                longitude: currentLocation.coords.longitude,
+                latitude: currentLocation.coords.latitude,
+                latitudeDelta: 0.01,
+                longitudeDelta: 0.01,
+            }}
             
         >       
                 {/* Elemento para dibujar ese circulo que indica nuestra posicion y cambia de posicion en base al vaor de center */}
@@ -40,8 +40,9 @@ const Map = () => {
                     strokeColor="rgba(158, 158, 255, 1.0)" //Color del borde y opacidad
                     fillColor="rgba(158, 158, 255, 0.3)"
                 />
-                {/* PolyLine recibe unas coordenadas en forma de array de objetos  u ojetos y las dibuja */}
-                <Polyline></Polyline>
+                {/* PolyLine recibe unas coordenadas en forma de array de objetos  u ojetos y las dibuja 
+                    Mapeamos el array que contiene nuestras localizaziones dentro de la prop coordinates*/}
+                <Polyline coordinates={ locations.map(location => location.coords)}></Polyline> 
                 
         </MapView>
     );

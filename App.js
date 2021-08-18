@@ -12,6 +12,7 @@ import { Provider as AuthProvider } from './src/Context/AuthContext';
 import { setNavigator } from './src/helpers/navigationRef';
 import ResolveAuthScreen from './src/screens/ResolveAuthScreen';
 import { Provider as LocationProvider } from './src/Context/LocationContext';
+import { Provider as TrackProvider } from './src/Context/TrackContext';
 
 // Navegacion principal -- SwitchNavigation hace una nevgacion instantanea sin animacion
 const switchNavigator = createSwitchNavigator({
@@ -44,11 +45,13 @@ const switchNavigator = createSwitchNavigator({
  const App =  createAppContainer(switchNavigator);
 
  export default () => {
-     return <LocationProvider>
-                <AuthProvider>
-                    {/* Le asignamos a nuestro componenete App una prop en la cual es una funcion en la que recibimos el obj Navigator y nos lo pasamos
-                        a nuestra HELPER FUNCION para poder tener acceso a la navegacion siempre */}
-                    <App ref={ (navigator) => { setNavigator(navigator) }}></App> 
-                </AuthProvider>
-            </LocationProvider>
+     return <TrackProvider>
+                <LocationProvider>
+                    <AuthProvider>
+                        {/* Le asignamos a nuestro componenete App una prop en la cual es una funcion en la que recibimos el obj Navigator y nos lo pasamos
+                            a nuestra HELPER FUNCION para poder tener acceso a la navegacion siempre */}
+                        <App ref={ (navigator) => { setNavigator(navigator) }}></App> 
+                    </AuthProvider>
+                </LocationProvider>
+            </TrackProvider>
  }
