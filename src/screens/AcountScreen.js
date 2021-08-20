@@ -4,6 +4,7 @@ import { Button } from 'react-native-elements';
 import { Context as AuthContext } from '../Context/AuthContext';
 import Spacer from '../components/Spacer';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Feather } from '@expo/vector-icons'; 
 
 const AcountScreen = () => {
 
@@ -22,7 +23,10 @@ const AcountScreen = () => {
         </SafeAreaView>
     );
 }
-
+AcountScreen.navigationOptions = {
+    title: 'Account',
+    tabBarIcon: <Feather name="settings" size={24} color="black" />
+}
 const styles = StyleSheet.create({
 });
 

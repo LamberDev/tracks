@@ -12,7 +12,6 @@ const trackReducer = (state, action) => {
 }
 
 const fetchTracks = dispatch => async () => {
-    console.log('ejecutando');
     try {
         const response = await tracker.get('/tracks');
         dispatch({ type: 'fetch_tracks', payload: response.data});

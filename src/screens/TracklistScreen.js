@@ -11,17 +11,23 @@ const TrackListScreen = ({ navigation }) => {
     
     return (
             <>
-            <NavigationEvents onWillFocus={ fetchTracks }/>
-                <Text style={ { fontSize: 45 } }>TrackListScreen</Text>
+            {/* Navigation Events es una etiqueta que no genera estilo pero nos sirve para captar eventos de la navegacion
+                En este caso lo utilizamos para captar cuando la pantalla se va a mostrar y llamaos a una fucnion que nos trae desde la api todos los
+                Tracks */}
+            <NavigationEvents onWillFocus={ fetchTracks }/> 
                 <FlatList
                     data={state}
                     keyExtractor={ item => item._id}
                     renderItem={ ({ item }) => {
  
-                        return <TouchableOpacity>
-                                    <ListItem>
+                        return <TouchableOpacity onPress={ () =>  navigation.navigate('TrackDetail', { _id: item._id })  }>
+                            {/* List Item es un elemento de react native elements que nos da algo de estilo a las listas 
+                                List itemm content se mete detro tod el contenido
+                                Lst item title es para meter el titulo de cada elemento
+                                Chevron es una flechita que invita a pulsarse*/}
+                                    <ListItem> 
                                         <ListItem.Content>
-                                            <ListItem.Title>
+                                            <ListItem.Title> 
                                                 {item.name}
                                             </ListItem.Title>
                                         </ListItem.Content>
@@ -34,8 +40,13 @@ const TrackListScreen = ({ navigation }) => {
     );
 }
 
-const styles = StyleSheet.create({
+TrackListScreen.navigationOptions = {
+    title: 'Tracks'
+};
 
+
+const styles = StyleSheet.create({
+    
 });
 
 export default TrackListScreen;

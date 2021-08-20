@@ -6,6 +6,7 @@ import Map from '../components/Map';
 import { Context as LocationContext } from '../Context/LocationContext';
 import useLocation from '../hooks/useLocation';
 import TrackForm from '../components/TrackForm';
+import { Ionicons } from '@expo/vector-icons'; 
 //import '../helpers/_mockLocation';
 
 const TrackCreateScreen = ( { isFocused} ) => { // Recibo la prop de WithNavigationFocus
@@ -30,6 +31,11 @@ const TrackCreateScreen = ( { isFocused} ) => { // Recibo la prop de WithNavigat
             <TrackForm></TrackForm>
         </SafeAreaView>
     );
+}
+
+TrackCreateScreen.navigationOptions = {
+    title: 'Add',
+    tabBarIcon: <Ionicons name="add-outline" size={24} color="black" />
 }
 
 const styles = StyleSheet.create({

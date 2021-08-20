@@ -13,6 +13,18 @@ import { setNavigator } from './src/helpers/navigationRef';
 import ResolveAuthScreen from './src/screens/ResolveAuthScreen';
 import { Provider as LocationProvider } from './src/Context/LocationContext';
 import { Provider as TrackProvider } from './src/Context/TrackContext';
+import { Feather } from '@expo/vector-icons'; 
+
+//TrackListFlow para poder editar las navigationOptions
+const trackListFlow = createStackNavigator({
+    TrackList: TrackListScreen,
+    TrackDetail: TrackDetailScreen
+});
+
+trackListFlow.navigationOptions = {
+    title: 'Tracks',
+    tabBarIcon: <Feather name="list" size={24} color="black" />
+}
 
 // Navegacion principal -- SwitchNavigation hace una nevgacion instantanea sin animacion
 const switchNavigator = createSwitchNavigator({
@@ -31,10 +43,7 @@ const switchNavigator = createSwitchNavigator({
     mainFlow: createBottomTabNavigator({
         
         // Navegación de lista de tracks a vista detalle del track
-        trackListFlow: createStackNavigator({
-            TrackList: TrackListScreen,
-            TrackDetail: TrackDetailScreen
-        }),
+        trackListFlow,
 
         TrackCreate: TrackCreateScreen,
         Account: AcountScreen
